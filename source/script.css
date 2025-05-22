@@ -1,0 +1,61 @@
+body {
+  font-family: "Comic Mono", "Helvetica Neue", sans-serif;
+  margin: 0; /* Reset built-in value. */
+}
+
+p {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  margin: 0 0 12px 0;
+}
+
+a {
+  display: inline;
+  color: yellow;
+}
+
+h1 {
+  font-size: 80px;
+  word-break: keep-all;
+}
+
+h2 {
+  font-size: 42px;
+}
+
+h3 {
+  font-size: 24px;
+}
+
+.content-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 20vh 14vw;
+}
+
+#buehne {
+  background: linear-gradient(30deg, blue, orange); /* made at https://learnui.design/tools/gradient-generator.html */
+  color: white;
+  height: 550px
+}
+
+.grid-3col {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8vw;
+}
+
+#footer {
+  padding-top: 48px;
+  color: white;
+  background: black;
+}
+
+#dvd {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  height: 214px;
+  width: 154px;
+}
