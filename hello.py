@@ -22,12 +22,13 @@ def runCode():
         outList=[]
         for line in result.splitlines():
             outList.append(line.decode())
+        print(outList)
         return outList
 
 @app.route("/", methods=['POST','GET'])
 def acceptcode():
     if request.method=='POST':
-        print(request.form["code"])
+        #print(request.form["code"])
         f = open(codeFilePath, 'w+')  # open file in overwrite mode
         f.write(request.form["code"])
         f.close()

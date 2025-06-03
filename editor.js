@@ -12,6 +12,9 @@
 //   parent: document.body
 // })
 
+let responseJson = JSON.parse('{"example":"bruh"}');
+let terminalStr="ready";
+
 let editorView = CodeMirror.fromTextArea(
     document.getElementById("editor"),
     {
@@ -26,7 +29,9 @@ var xhrForm = new XMLHttpRequest();
 
 xhrForm.onload = () => {
   // Request finished. Do processing here.
-  document.getElementById("terminal").innerHTML = "whatever";
+  responseJson = JSON.parse(xhrForm.response);
+  terminalStr=responseJson.join("<br />")
+  document.getElementById("terminal").innerHTML = terminalStr;
 };
 
 postBtn.onclick = function(){
