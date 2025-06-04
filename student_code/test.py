@@ -1,4 +1,4 @@
-nome=""
+name=""
 symbol=""
 purchase_price=0.0
 capital=0.0
@@ -76,7 +76,7 @@ def checkStringValidChars(string:str, allowedChars:list)->bool:
 
 
 
-print(set_stock("abc", 3,"少女A"))
+print(set_stock("abc","少女A"))
 print(set_stock("abc","123"))
 print(set_stock(0,"$YOLO"))
 print(change_available_capital(+100))
