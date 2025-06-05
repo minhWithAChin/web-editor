@@ -52,9 +52,15 @@ server {
 		try_files $uri $uri/ =404;
 	}
 	location ~ /.(ico)$ {
-		#___Aus irgendeinem Grund Funktioniert das nicht: ___
+		# First attempt to serve request as file, then
 		root /var/www/img;
+		# as directory, then fall back to displaying a 404.
 		try_files $uri $uri/ =404;
+	}
+
+	 # Rewrite /a/code und /b/code zu /code
+	location ~ ^/(text|block)/code$ {
+	        rewrite ^/(text|block)/code$ /code break;
 	}
 
 	location /code/ {

@@ -1,3 +1,7 @@
 #terminal {
     font-family: "Comic Mono", monospace;
 }
+
+#editor {
+    height: 700px;
+}
