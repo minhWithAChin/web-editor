@@ -9,9 +9,9 @@ formatter=logging.Formatter('%(asctime)s;%(levelname)s;%(module)s;%(funcName)s;%
 formatter2=logging.Formatter('%(levelname)s - %(funcName)s: %(message)s')
 
 #https://stackoverflow.com/questions/35807605/create-a-file-if-it-doesnt-exist
-logFilePath = os.path.join(".","log_data","stocks.log")
+logFilePath = os.path.join(".","log_data","flask.log")
 if not os.path.isfile(logFilePath):
-    os.mknod(codeFilePath)
+    os.mknod(logFilePath)
     log.warning("path für log code existiert nicht")
 
 logFileHandler=logging.FileHandler(logFilePath)
@@ -20,7 +20,7 @@ logFileHandler.setLevel(logging.DEBUG)
 
 logTerminalHandler=logging.StreamHandler(sys.stdout)
 logTerminalHandler.setFormatter(formatter2)
-logTerminalHandler.setLevel(logging.WARNING)
+logTerminalHandler.setLevel(logging.DEBUG)
 
 log.addHandler(logFileHandler)
 log.addHandler(logTerminalHandler)
