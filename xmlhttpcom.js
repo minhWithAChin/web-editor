@@ -19,11 +19,11 @@ export function sendCode(content){
     let form = new FormData();
     console.log(content);
     form.append("code",content);
-    xhrForm.open("POST", "code/");
+    xhrForm.open("POST", "../code/");
     xhrForm.send(form);
 };
 export function reloadCode(){
-    xhrForm.open("GET", "code/");
+    xhrForm.open("GET", "../code/");
     xhrForm.send(null);  
 
 };

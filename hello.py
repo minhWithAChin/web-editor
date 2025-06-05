@@ -1,9 +1,11 @@
 from flask import Flask, render_template, request
 from werkzeug.middleware.proxy_fix import ProxyFix
+from mylog import log
 import subprocess, sys, os
 
 codeFilePath='/var/www/html/student_code/test.py'
 if not os.path.exists(codeFilePath):
+    log.warning("path für test code existiert nicht")
     os.mknod(codeFilePath)
 
 app = Flask(__name__)
@@ -22,13 +24,13 @@ def runCode():
         outList=[]
         for line in result.splitlines():
             outList.append(line.decode())
-        print(outList)
+        log.debug(outList)
         return outList
 
 @app.route("/", methods=['POST','GET'])
 def acceptcode():
     if request.method=='POST':
-        #print(request.form["code"])
+        log.debug(request.form["code"])
         f = open(codeFilePath, 'w+')  # open file in overwrite mode
         f.write(request.form["code"])
         f.close()
