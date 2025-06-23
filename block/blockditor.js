@@ -47,6 +47,10 @@ const toolbox = {
     },
     {
       "kind": "block",
+      "type": "logic_boolean",
+    },
+    {
+      "kind": "block",
       "type": "text",
       
     },
