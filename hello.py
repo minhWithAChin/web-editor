@@ -4,7 +4,7 @@ from mylog import log
 import subprocess, sys, os
 import time, multiprocessing
 
-timeOutSec=10
+timeOutSec=60
 
 codeFilePath='/var/www/html/student_code/test.py'
 if not os.path.exists(codeFilePath):
@@ -19,16 +19,17 @@ app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1)
 #     return "<p>Hello, World!</p>"
 
 def runCode():
-    result=""
     try:
 	    result = subprocess.check_output("python3 "+codeFilePath, shell = True, timeout=timeOutSec , executable = "/bin/bash", stderr = subprocess.STDOUT)
     except subprocess.CalledProcessError as cpe:
         result = cpe.output
+    except subprocess.timeOutError as toe:
+        result = toe.output
     finally:
         outList=[]
-        if result ==  "":
-            log.error("timeOutError")
-            return ["timeout-error","your Code is taking too long","please fix it"]
+        # if result ==  "":
+        #     log.error("timeOutError")
+        #     return ["timeout-error","your Code is taking too long","please fix it"]
         for line in result.splitlines():
             outList.append(line.decode())
         log.debug(outList)
@@ -37,12 +38,29 @@ def runCode():
 @app.route("/", methods=['POST','GET'])
 def acceptcode():
     if request.method=='POST':
-        log.debug(request.form["code"])
-        f = open(codeFilePath, 'w+')  # open file in overwrite mode
-        f.write(request.form["code"])
-        f.close()
-        return runCode()
+        try:
+            with open(codeFilePath, 'w+') as f:  # open file in overwrite mode
+                f.write(request.form["code"])
+                log.debug(request.form["code"])
+            return [True]
+        except:
+            log.critical(codeFilePath+"not reachable")
+            return [False]
     elif request.method=='GET':
+        try:
+            with open(codeFilePath, 'r') as f:  # open file in read mode
+                code=f.read()
+                log.debug(code)
+            return [True,code.split('\n')]
+        except:
+            log.critical(codeFilePath+"not reachable")
+            return [False,"not found","try uploading first"]
         return runCode()
     else:
         return "<p>bruh!?</p>"
+
+@app.route("/exec", methods=['POST','GET'])
+def executecode():
+    if request.method=='POST':
+        return [True]
+    elif request.method=='GET':

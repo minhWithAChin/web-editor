@@ -8,12 +8,22 @@ xhrForm.onload = () => {
   // Request finished. Do processing here.
   try {
     responseJson = JSON.parse(xhrForm.response);
+    if(responseJson.length > 1){
+      console.log(responseJson[1])
+      displayToTerminal(responseJson[1])
+    }else{
+      displayToTerminal(responseJson)
+    }
   } catch (error) {
     responseJson = [error]
+    displayToTerminal(responseJson)
   }
+};
+
+function displayToTerminal(responseJson){
   terminalStr=responseJson.join("<br />")
   document.getElementById("terminal").innerHTML = terminalStr;
-};
+}
 
 export function sendCode(content){
     let form = new FormData();
