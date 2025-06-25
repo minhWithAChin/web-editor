@@ -32,8 +32,13 @@ export function sendCode(content){
     xhrForm.open("POST", "../code/");
     xhrForm.send(form);
 };
-export function reloadCode(){
+export function getCode(){
     xhrForm.open("GET", "../code/");
+    xhrForm.send(null);  
+
+};
+export function execCode(){
+    xhrForm.open("GET", "../code/exec");
     xhrForm.send(null);  
 
 };

@@ -1,4 +1,4 @@
-import { sendCode,reloadCode } from "../xmlhttpcom.js";
+import { sendCode,getCode,execCode } from "../xmlhttpcom.js";
 
 const myBlockDefinitions = Blockly.common.defineBlocksWithJsonArray([
   {
@@ -82,5 +82,9 @@ postBtn.onclick = function(){
     sendCode(pythonCode);
 };
 getBtn.onclick = function(){
-    reloadCode();
+    getCode();
+};
+
+execBtn.onclick = function(){
+    execCode();
 };

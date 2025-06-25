@@ -11,6 +11,8 @@ if not os.path.exists(codeFilePath):
     log.warning("path für test code existiert nicht")
     os.mknod(codeFilePath)
 
+codeRunningState=False
+
 app = Flask(__name__)
 app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1)
 
@@ -19,6 +21,7 @@ app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1)
 #     return "<p>Hello, World!</p>"
 
 def runCode():
+    global codeRunningState
     try:
 	    result = subprocess.check_output("python3 "+codeFilePath, shell = True, timeout=timeOutSec , executable = "/bin/bash", stderr = subprocess.STDOUT)
     except subprocess.CalledProcessError as cpe:
@@ -33,6 +36,7 @@ def runCode():
         for line in result.splitlines():
             outList.append(line.decode())
         log.debug(outList)
+        codeRunningState=False
         return outList
 
 @app.route("/", methods=['POST','GET'])
@@ -54,13 +58,16 @@ def acceptcode():
             return [True,code.split('\n')]
         except:
             log.critical(codeFilePath+"not reachable")
-            return [False,"not found","try uploading first"]
+            return [False,["not found","try uploading first"]]
         return runCode()
     else:
-        return "<p>bruh!?</p>"
+        return [False,["<p>bruh!?</p>"]]
 
-@app.route("/exec", methods=['POST','GET'])
-def executecode():
-    if request.method=='POST':
-        return [True]
-    elif request.method=='GET':
+@app.route("/exec", methods=['GET'])
+def executecode():  #-Python lässt sich abbrechen wenn der Knopf doppelt gedrückt wird
+    global codeRunningState
+    if not codeRunningState:
+        codeRunningState=True
+        return [False,runCode()]
+    else:
+        return [True,["Code läuft schon"]]

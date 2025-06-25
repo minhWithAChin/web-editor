@@ -11,7 +11,7 @@
 //   state: startState,
 //   parent: document.body
 // })
-import { sendCode,reloadCode } from "../xmlhttpcom.js";
+import { sendCode,getCode,execCode } from "../xmlhttpcom.js";
 
 let editorView = CodeMirror.fromTextArea(
     document.getElementById("editor"),
@@ -23,11 +23,15 @@ let editorView = CodeMirror.fromTextArea(
 
 let postBtn=document.getElementById("postButton");
 let getBtn=document.getElementById("getButton");
+let execBtn=document.getElementById("execButton");
 
 postBtn.onclick = function(){
     sendCode(editorView.getValue());
 };
 getBtn.onclick = function(){
-    reloadCode();
+    getCode();
+};
+execBtn.onclick = function(){
+    execCode();
 };
 
