@@ -1,9 +1,9 @@
 import RPi.GPIO as GPIO
 from time import sleep
 en=[5,25]
-back=[16,24]
-forw=[12,23]
-speed=[]
+forw=[16,24]
+back=[12,23]
+speed=[0,0]
 # in4 = 23
 # in3 = 24
 # enB = 25
@@ -60,7 +60,7 @@ def right(l:float):
 	GPIO.output(back[0], GPIO.HIGH)
 	GPIO.output(forw[1], GPIO.HIGH)
 	print("turning right")
-	sleep(l)
+	sleep(l*0.66)
 	GPIO.output(back[0], GPIO.LOW)
 	GPIO.output(forw[1], GPIO.LOW)
 	sleep(0.5)
@@ -69,7 +69,7 @@ def left(l:float):
 	GPIO.output(back[1], GPIO.HIGH)
 	GPIO.output(forw[0], GPIO.HIGH)
 	print("turning left")
-	sleep(l)
+	sleep(l*0.66)
 	GPIO.output(back[1], GPIO.LOW)
 	GPIO.output(forw[0], GPIO.LOW)
 	sleep(0.5)
@@ -80,10 +80,10 @@ if __name__=="__main__":
 	a=0
 	try:
 		while(a<5):
+			forward(1)
 			right(2)
-			sleep(2)
+			reverse(1)
 			left(2)
-			sleep(2)
 			a=a+1
 		# Scavenging work after the end of the program
 	except KeyboardInterrupt:

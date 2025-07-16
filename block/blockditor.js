@@ -1,4 +1,4 @@
-import { sendCode,getCode,execCode } from "../xmlhttpcom.js";
+import { sendCode,getCode,execCode,cancExec } from "../xmlhttpcom.js";
 
 const myBlockDefinitions = Blockly.common.defineBlocksWithJsonArray([
   {
@@ -75,6 +75,9 @@ const workspace = Blockly.inject('editor', {
 //___Generierung des Codes wenn Post gedrückt wird___
 let postBtn=document.getElementById("postButton");
 let getBtn=document.getElementById("getButton");
+let execBtn=document.getElementById("execButton");
+let cancBtn=document.getElementById("cancButton");
+//cancBtn.disabled = true;
 
 postBtn.onclick = function(){
     const pythonCode = python.pythonGenerator.workspaceToCode(workspace);
@@ -87,4 +90,12 @@ getBtn.onclick = function(){
 
 execBtn.onclick = function(){
     execCode();
+    //execBtn.disabled = true;
+    //cancBtn.disabled = false;
+};
+
+cancBtn.onclick = function(){
+    cancExec();
+    //execBtn.disabled = false;
+    //cancBtn.disabled = true;
 };

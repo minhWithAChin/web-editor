@@ -1,4 +1,4 @@
-import smbus
+import smbus3 as smbus
 import time
 
 # Config Register (R/W)
@@ -192,7 +192,8 @@ if __name__=='__main__':
 
     # Create an INA219 instance.
     ina219 = INA219(addr=0x42)
-    while True:
+    once=True
+    while once:
         bus_voltage = ina219.getBusVoltage_V()             # voltage on V- (load side)
         shunt_voltage = ina219.getShuntVoltage_mV() / 1000 # voltage between V+ and V- across the shunt
         current = ina219.getCurrent_mA()                   # current in mA
@@ -209,5 +210,4 @@ if __name__=='__main__':
         print("Power:         {:6.3f} W".format(power))
         print("Percent:       {:3.1f}%".format(p))
         print("")
-
-        time.sleep(2)
+        once=False
