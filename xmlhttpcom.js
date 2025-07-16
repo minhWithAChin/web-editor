@@ -4,6 +4,7 @@ let terminalStr="ready";
 let execBool=false;
 let cancelled=false;
 let heartID=0;
+let pulse_period=2;
 
 var xhrForm = new XMLHttpRequest();
 
@@ -11,12 +12,15 @@ xhrForm.onload = () => {
   // Request finished. Do processing here.
   try {
     responseJson = JSON.parse(xhrForm.response);
-    if(responseJson.length > 1){
-      console.log(responseJson[1]);
-      displayToTerminal(responseJson[1]);
+    if(responseJson.length > 2){
       let done = responseJson[0];
-      if (done){
+      let exec = responseJson[1];
+      console.log(responseJson.join(" - "));
+      displayToTerminal(responseJson[2]);
+      if (done && exec && execBool){ // Heartbeat soll nur stoppen ,wenn Code executiert wurde und die Antwort von exec True ist
 	clearInterval(heartID);
+	cancelled=false;
+	execBool=false;
       }
     }else{
       displayToTerminal(responseJson)
@@ -53,14 +57,18 @@ export function getCode(){
 
 };
 export function execCode(){
+    if(!execBool){
     xhrForm.open("GET", "../code/exec");
     xhrForm.send(null);  
     execBool=true
     cancelled=false
-    heartID=setInterval(heartbeat,1000*5)
+    heartID=setInterval(heartbeat,1000*pulse_period)}else{
+    displayToTerminal(["Code läuft schon","drücke auf Cancel um ihn abzubrechen"])}
 
 };
 export function cancExec(){
-      cancelled=true
+      if(execBool){
+          cancelled=true}else{
+      displayToTerminal(["Lade den Code zuerst hoch","und führe ihn aus"])}
 
 };

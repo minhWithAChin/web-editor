@@ -4,6 +4,8 @@ en=[5,25]
 forw=[16,24]
 back=[12,23]
 speed=[0,0]
+r_mult=0.5
+l_mult=0.4
 # in4 = 23
 # in3 = 24
 # enB = 25
@@ -38,10 +40,14 @@ for i in range(2):
 # speedB=GPIO.PWM(enB,100) 
 # speedB.start(100) 
 
-def forward(l:float):
+def cont_forw():
+	reset()
 	for x in forw:
 		GPIO.output(x, GPIO.HIGH)
 	print("Moving Forward")
+
+def forward(l:float):
+	cont_forw()
 	sleep(l)
 	for x in forw:
 		GPIO.output(x, GPIO.LOW)
@@ -60,7 +66,7 @@ def right(l:float):
 	GPIO.output(back[0], GPIO.HIGH)
 	GPIO.output(forw[1], GPIO.HIGH)
 	print("turning right")
-	sleep(l*0.66)
+	sleep(l*r_mult)
 	GPIO.output(back[0], GPIO.LOW)
 	GPIO.output(forw[1], GPIO.LOW)
 	sleep(0.5)
@@ -69,11 +75,16 @@ def left(l:float):
 	GPIO.output(back[1], GPIO.HIGH)
 	GPIO.output(forw[0], GPIO.HIGH)
 	print("turning left")
-	sleep(l*0.66)
+	sleep(l*l_mult)
 	GPIO.output(back[1], GPIO.LOW)
 	GPIO.output(forw[0], GPIO.LOW)
 	sleep(0.5)
-#___ A,0 = rechts ____
+
+def reset():
+	for i in range(2):
+		GPIO.output(back[i], GPIO.LOW)
+		GPIO.output(forw[i], GPIO.LOW)
+	sleep(0.5)
 
 if __name__=="__main__":
 	print('[press ctrl+c to end the test]')
