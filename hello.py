@@ -67,8 +67,10 @@ def extractSubProc():
 	(stdOut,stdErr)= proc.communicate()
 	#codeRunningState=False
 	if stdErr:
-		return stdErr
-	return stdOut
+		outList=stdErr.split('\n')
+	else:
+		outList=stdOut.split('\n')
+	return outList
 
 def cancelSubProc():
 	global proc
@@ -119,11 +121,14 @@ def executecode():  #-Python lässt sich abbrechen wenn der Knopf doppelt gedrü
 	    else:
 	        return [False,True,["Code läuft schon"]]
     elif request.method=='POST':
+        global proc
+        if proc==0:
+            return [True,True,["führe den Code zuerst aus","Drücke auf den EXECUTE-Knopf"]]
         codeRunningState=checkSubProc()
         if not codeRunningState:
             output=extractSubProc()
             log.debug(output) #___hier heartbeat abbr
-            return [True,True,[output]]
+            return [True,True,output]
         else:
             if request.form["cancelled"]=="true":
                 cancelSuccess=cancelSubProc()

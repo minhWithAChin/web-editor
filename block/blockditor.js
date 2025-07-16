@@ -21,8 +21,11 @@ const myBlockDefinitions = Blockly.common.defineBlocksWithJsonArray([
 // 3. Python-Codegenerator
       python.pythonGenerator.forBlock['print_block'] = function(block) {
         const value_text = Blockly.Python.valueToCode(block, 'TEXT', Blockly.Python.ORDER_NONE) || "''";
-        return 'print(' + value_text + ')\n';
+        return 'print(f"[{t.asctime()}]: "+' + value_text + ')\n';
       };
+
+// Add a preamble and a postscript to the code.
+const preamble = 'import motor_test as m\nimport time as t\n'
 
 const toolbox = {
   // There are two kinds of toolboxes. The simpler one is a flyout toolbox.
@@ -81,8 +84,9 @@ let cancBtn=document.getElementById("cancButton");
 
 postBtn.onclick = function(){
     const pythonCode = python.pythonGenerator.workspaceToCode(workspace);
-    console.log(pythonCode)
-    sendCode(pythonCode);
+    const outCode=preamble+pythonCode
+    console.log(outCode)
+    sendCode(outCode);
 };
 getBtn.onclick = function(){
     getCode();

@@ -1,5 +1,3 @@
 import motor_test as m
- 
-while True:
-  m.reverse(1)
-  m.forward(1)
+import time as t
+print(f"[{t.asctime()}]: "+'Hello World')
