@@ -63,7 +63,7 @@ const myBlockDefinitions = Blockly.common.defineBlocksWithJsonArray([
  },
  {
     "type": "set_speed",
-    "message0": "%1-mal nach %2 drehen",
+    "message0": "%1 Geschwindigkeit vom %2",
     "args0": [
       {
         "type": "input_value",
@@ -245,10 +245,22 @@ const myBlockDefinitions = Blockly.common.defineBlocksWithJsonArray([
         const value_num = Blockly.Python.valueToCode(block, 'NUM', Blockly.Python.ORDER_NONE) || "''";
 	const option = block.getFieldValue('FIELDNAME')
         return 'm.'+ option +'(+' + value_num + ')\n';
+      };python.pythonGenerator.forBlock['move_cont'] = function(block) {
+	const option = block.getFieldValue('FIELDNAME')
+        return 'm.'+ option +'()\n';
+      };python.pythonGenerator.forBlock['turn_cont'] = function(block) {
+	const option = block.getFieldValue('FIELDNAME')
+        return 'm.'+ option +'()\n';
+      };python.pythonGenerator.forBlock['reset_m'] = function(block) {
+        return 'm.reset()\n';
+      };python.pythonGenerator.forBlock['set_speed'] = function(block) {
+        const value_num = Blockly.Python.valueToCode(block, 'NUM', Blockly.Python.ORDER_NONE) || "''";
+	const option = block.getFieldValue('FIELDNAME')
+        return 'm.'+ option +'(+' + value_num + ')\n';
       };
       python.pythonGenerator.forBlock['get_dist'] = function(block) {
 	const option = block.getFieldValue('FIELDNAME')
-        return ['m.dist('+ option +')\n',Blockly.Python.ORDER_NONE];
+        return ['m.dist('+ option +')',Blockly.Python.ORDER_NONE];
       };
       python.pythonGenerator.forBlock['var_set'] = function(block) {
       var variable_name = Blockly.Python.nameDB_.getName(block.getFieldValue('VAR'),    Blockly.Variables.NAME_TYPE);
@@ -256,7 +268,7 @@ const myBlockDefinitions = Blockly.common.defineBlocksWithJsonArray([
   return variable_name + ' = ' + value + '\n';
 };      python.pythonGenerator.forBlock['var_get'] = function(block) {
       var variable_name = Blockly.Python.nameDB_.getName(block.getFieldValue('VAR'),    Blockly.Variables.NAME_TYPE);
-  return [variable_name+"\n",Blockly.Python.ORDER_ATOMIC];
+  return [variable_name,Blockly.Python.ORDER_ATOMIC];
 };
 python.pythonGenerator.forBlock['def_func'] = function(block) {
   // Funktionsname und Parameter unverändert übernehmen
@@ -332,10 +344,22 @@ const toolbox = {
     {
       kind: 'block',
       type: 'move_step'
+    }, {
+      kind: 'block',
+      type: 'move_cont'
     }, 
     {
       kind: 'block',
       type: 'turn_90'
+    }, {
+      kind: 'block',
+      type: 'turn_cont'
+    }, {
+      kind: 'block',
+      type: 'set_speed'
+    }, {
+      kind: 'block',
+      type: 'reset_m'
     }, 
     {
       kind: 'block',
