@@ -3,7 +3,7 @@ import { sendCode,getCode,execCode,cancExec } from "../xmlhttpcom.js";
 const myBlockDefinitions = Blockly.common.defineBlocksWithJsonArray([
   {
     "type": "print_block",
-    "message0": "print %1",
+    "message0": "Ausgabe %1",
     "args0": [
       {
         "type": "input_value",
@@ -15,13 +15,33 @@ const myBlockDefinitions = Blockly.common.defineBlocksWithJsonArray([
     "colour": 160,
     "tooltip": "Gibt den Text in der Konsole aus",
     "helpUrl": ""
-  }
+  },
+<
+ {
+    "type": "forw_step",
+    "message0": "%1 Schritte Vorwärts",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "NUM"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 160,
+    "tooltip": "geht um so viele Sekunden vorwärts",
+    "helpUrl": ""
+ }
 ]);
 
 // 3. Python-Codegenerator
       python.pythonGenerator.forBlock['print_block'] = function(block) {
         const value_text = Blockly.Python.valueToCode(block, 'TEXT', Blockly.Python.ORDER_NONE) || "''";
-        return 'print(f"[{t.asctime()}]: "+' + value_text + ')\n';
+        return 'print(f"[{t.strftime(\'%H:%M:%S\')}]: "+' + value_text + ')\n';
+      };
+      python.pythonGenerator.forBlock['forw_step'] = function(block) {
+        const value_num = Blockly.Python.valueToCode(block, 'NUM', Blockly.Python.ORDER_NONE) || "''";
+        return 'm.forward(+' + value_num + ')\n';
       };
 
 // Add a preamble and a postscript to the code.
@@ -60,6 +80,10 @@ const toolbox = {
     {
       kind: 'block',
       type: 'print_block'
+    }, 
+    {
+      kind: 'block',
+      type: 'forw_step'
     }, 
   ]
 };

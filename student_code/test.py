@@ -1,3 +1,4 @@
-import motor_test as m
 import time as t
-print(f"[{t.asctime()}]: "+'Hello World')
+import motor_test as m
+print(m.dist(0))
+m.forward(1)

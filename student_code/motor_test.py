@@ -1,6 +1,6 @@
 import RPi.GPIO as GPIO
 import math
-from time import sleep, asctime
+from time import sleep, asctime, time
 en=[5,25]
 forw=[16,24]
 back=[12,23]
@@ -30,6 +30,26 @@ for i in range(2):
 	speed[i]=GPIO.PWM(en[i],100) # Set frequency to 100 hz
 speed[0].start(75) # duty cycle between 0 and 100 #rechts
 speed[1].start(100) #links
+
+TRIG = [4,27,13]
+ECHO = [17,22,26]
+for i in range(3): 
+        GPIO.setup(TRIG[i],GPIO.OUT)
+        GPIO.setup(ECHO[i],GPIO.IN)
+        GPIO.output(TRIG[i], False)
+
+def dist(i:int)-> float:
+        GPIO.output(TRIG[i], True)
+        sleep(0.00001)
+        GPIO.output(TRIG[i], False)
+        while GPIO.input(ECHO[i]) == 0:
+                pulse_start = time()
+        while GPIO.input(ECHO[i]) == 1:
+                pulse_end = time()
+        pulse_duration = pulse_end - pulse_start
+        distance = pulse_duration * 17150
+        distance = round(distance, 2)
+        return distance
 
 # GPIO.setup(in2,GPIO.OUT)
 # GPIO.setup(enA,GPIO.OUT)
